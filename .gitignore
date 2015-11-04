@@ -1,2 +1,6 @@
 *.suo
 Parser/Parser/bin/Debug/Parser.vshost.exe
+/Parser/Parser/obj/Debug/Parser.csprojResolveAssemblyReference.cache
+*.pdb
+/Parser/Parser/obj/Debug
+/Parser/Parser/bin/Debug
