@@ -9,7 +9,11 @@ namespace Parser
   {
     static void Main(string[] args)
     {
+      var parser = new OrderParser();
+      var order = parser.ParseOrder();
 
+      Console.WriteLine("Done!");
+      Console.ReadLine();
     }
   }
 }
