@@ -76,6 +76,7 @@ namespace Parser
       Console.WriteLine(lines.Count());
 
       var order = new Order();
+      order.SourceSystem = sourceSystem;
       order.CustomerPurchaseOrder = customerPurchaseOrder;
       order.OrderDateTime = ParseDateTime(dateTime);
       order.CustomerName = customerName;
@@ -90,7 +91,7 @@ namespace Parser
         var productCode02 = xElement.Descendants("ITEM_NUMBER_02").Single().Value;
         var lineItemQty = xElement.Descendants("ORDERED_QUANTITY").Single().Value;
 
-        Console.WriteLine(productCode01+"_"+productCode02 + " " + lineItemQty);
+        Console.WriteLine("{0}_{1} {2}", productCode01, productCode02, lineItemQty);
 
         order.Items.Add(item);
       }
