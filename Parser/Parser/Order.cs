@@ -13,6 +13,12 @@ namespace Parser
 
     public string CustomerPurchaseOrder { get; set; }
 
+    public string CustomerNumber { get; set; }
+
+    public string CustomerName { get; set; }
+
+    public string CustomerContact { get; set; }
+
     public Order()
     {
       Items = new List<OrderItem>();
