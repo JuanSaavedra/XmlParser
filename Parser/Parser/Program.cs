@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace Parser
 {
-  class Program
+  public class OrderParser
+  {
+    
+  }
+
+  public class Program
   {
     static void Main(string[] args)
     {
+
     }
   }
 }
