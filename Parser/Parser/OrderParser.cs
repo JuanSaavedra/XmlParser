@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -71,7 +72,7 @@ namespace Parser
 
       var order = new Order();
       order.CustomerPurchaseOrder = customerPurchaseOrder;
-      
+      order.OrderDateTime = ParseDateTime(dateTime);
 
       foreach (var xElement in lines)
       {
@@ -88,6 +89,12 @@ namespace Parser
       }
 
       return order;
+    }
+
+    public DateTime ParseDateTime(string dateString)
+    {
+      var date1 = DateTime.ParseExact(dateString, "dd-MMM-yyyy HH:mmm:ss", DateTimeFormatInfo.InvariantInfo);
+      return date1;
     }
   }
 }

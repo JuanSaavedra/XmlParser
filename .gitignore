@@ -4,3 +4,6 @@ Parser/Parser/bin/Debug/Parser.vshost.exe
 *.pdb
 /Parser/Parser/obj/Debug
 /Parser/Parser/bin/Debug
+/Parser/UnitTests/obj/Debug
+/Parser/UnitTests/bin/Debug
+/Parser/Parser.sln.DotSettings.user
