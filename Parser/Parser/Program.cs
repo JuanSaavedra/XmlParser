@@ -9,9 +9,16 @@ namespace Parser
   {
     static void Main(string[] args)
     {
-      var parser = new OrderParser();
-      var files = parser.GetOrdersAsFiles();
-      var orders = parser.GetOrders(files);
+      // create collector get all files
+      var collector = new XmlOrderFileCollector("","");
+      var rawFiles = collector.GetRawOrderFiles();
+
+      // create order parser
+      var parser = new XMLOrderParser();
+      
+      // parse files into Orders
+      var orders = parser.ParseOrders(rawFiles);
+      
       
       Console.WriteLine("Done!");
       Console.WriteLine("========================");

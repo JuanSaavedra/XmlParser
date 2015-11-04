@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -8,53 +9,35 @@ using System.Xml.Serialization;
 
 namespace Parser
 {
-  public static class Utils
+  public class XMLOrderParser
   {
-    public static string GetOrderInnerValue(this XDocument doc, string path)
-    {
-      try
-      {
-        return doc.Descendants(path).Single().Value;
-      }
-      catch (Exception e)
-      {
-        throw new ApplicationException("Cannot parse order doc " + path);
-      }
-    }
-  }
-
-  public class OrderParser
-  {
-    public List<FileInfo> GetOrdersAsFiles()
-    {
-      const string location = @"C:\GitPlay\Learn\XmlParser\Parser\Orders";
-      var dirInfo = new DirectoryInfo(location);
-
-      var files = dirInfo.GetFiles("*xml");
-
-      Console.WriteLine(files.Count() + " files found");
-
-      var orders = files.ToList();
-      return orders;
-    }
-
-    public List<Order> GetOrders(List<FileInfo> xmlFiles)
+    public List<Order> ParseOrders(List<XmlOrderFile> rawOrderFileContent)
     {
       var orders = new List<Order>();
 
-      foreach (var fileInfo in xmlFiles)
+      foreach (var rawOrderFile in rawOrderFileContent)
       {
-        var xmlDoc = XDocument.Load(fileInfo.FullName);
-        var order = ParseOrder(xmlDoc);
+        try
+        {
+          var order = ParseOrder(rawOrderFile);
+          orders.Add(order);
 
-        orders.Add(order);
+          Console.WriteLine("Order processed..");
+          Console.WriteLine("------------------");
+        }
+        catch (EDIOrderException ediOrderException)
+        {
+          Console.WriteLine("Order with filename '{0}' could not be processed", ediOrderException.OrderFileName);
+        }
       }
 
       return orders;
     }
 
-    public Order ParseOrder(XDocument xmlDoc)
+    public Order ParseOrder(XmlOrderFile orderFile)
     {
+      var xmlDoc = XDocument.Parse(orderFile.ContentAsString);
+
       // get the source system / datetime / operation
       var sourceSystem = xmlDoc.GetOrderInnerValue("SOURCE_SYSTEM");
       var dateTime = xmlDoc.GetOrderInnerValue("DATETIME");
@@ -70,10 +53,10 @@ namespace Parser
 
       if (!lines.Any())
       {
-        throw new ApplicationException("No Order Items found for this Order");
+        throw new EDIOrderLinesNotFoundException("Order Lines not found", orderFile.FileName);
       }
 
-      Console.WriteLine(lines.Count());
+      Console.WriteLine("Order lines found: " + lines.Count());
 
       var order = new Order();
       order.SourceSystem = sourceSystem;
