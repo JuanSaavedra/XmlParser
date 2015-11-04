@@ -4,6 +4,11 @@ namespace Parser
 {
   public class Order
   {
-    public List<OrderItem> Items { get; set; } 
+    public List<OrderItem> Items { get; set; }
+
+    public Order()
+    {
+      Items = new List<OrderItem>();
+    }
   }
 }
