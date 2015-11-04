@@ -11,6 +11,8 @@ namespace Parser
 
     public List<OrderItem> Items { get; set; }
 
+    public string CustomerPurchaseOrder { get; set; }
+
     public Order()
     {
       Items = new List<OrderItem>();
