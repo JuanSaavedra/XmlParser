@@ -99,6 +99,11 @@ namespace Parser
       return order;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dateString"></param>
+    /// <returns></returns>
     public DateTime ParseDateTime(string dateString)
     {
       var date1 = DateTime.ParseExact(dateString, "dd-MMM-yyyy HH:mmm:ss", DateTimeFormatInfo.InvariantInfo);
