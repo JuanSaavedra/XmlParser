@@ -66,13 +66,21 @@ namespace Parser
       var customerPurchaseOrder = xmlDoc.GetOrderInnerValue("CUSTOMER_PO");
 
       // Order Lines
-      var lines = xmlDoc.Descendants("ORDER_LINE");
+      var lines = xmlDoc.Descendants("ORDER_LINE").ToList();
+
+      if (!lines.Any())
+      {
+        throw new ApplicationException("No Order Items found for this Order");
+      }
 
       Console.WriteLine(lines.Count());
 
       var order = new Order();
       order.CustomerPurchaseOrder = customerPurchaseOrder;
       order.OrderDateTime = ParseDateTime(dateTime);
+      order.CustomerName = customerName;
+      order.CustomerContact = customerContact;
+      order.CustomerNumber = customerNumber;
 
       foreach (var xElement in lines)
       {
@@ -85,7 +93,6 @@ namespace Parser
         Console.WriteLine(productCode01+"_"+productCode02 + " " + lineItemQty);
 
         order.Items.Add(item);
-
       }
 
       return order;
