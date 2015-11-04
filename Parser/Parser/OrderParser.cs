@@ -54,8 +54,6 @@ namespace Parser
 
     public Order ParseOrder(XDocument xmlDoc)
     {
-      var order = new Order();
-      
       // get the source system / datetime / operation
       var sourceSystem = xmlDoc.GetOrderInnerValue("SOURCE_SYSTEM");
       var dateTime = xmlDoc.GetOrderInnerValue("DATETIME");
@@ -64,11 +62,16 @@ namespace Parser
       var customerNumber = xmlDoc.GetOrderInnerValue("CUSTOMER_NUMBER");
       var customerName = xmlDoc.GetOrderInnerValue("CUSTOMER_NAME");
       var customerContact = xmlDoc.GetOrderInnerValue("CUSTOMER_CONTACT");
+      var customerPurchaseOrder = xmlDoc.GetOrderInnerValue("CUSTOMER_PO");
 
       // Order Lines
       var lines = xmlDoc.Descendants("ORDER_LINE");
 
       Console.WriteLine(lines.Count());
+
+      var order = new Order();
+      order.CustomerPurchaseOrder = customerPurchaseOrder;
+      
 
       foreach (var xElement in lines)
       {
