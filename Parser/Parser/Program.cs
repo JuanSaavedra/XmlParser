@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Parser.XMLParser;
 
 namespace Parser
 {
@@ -15,10 +16,12 @@ namespace Parser
 
       // create order parser
       var parser = new XMLOrderParser();
-      
+
+      var request = new XMLOrderParserRequest();
+      request.XmlOrderFiles = rawFiles;
+
       // parse files into Orders
-      var orders = parser.ParseOrders(rawFiles);
-      
+      var xmlOrderParserResponse = parser.ParseOrders(request);
       
       Console.WriteLine("Done!");
       Console.WriteLine("========================");

@@ -1,26 +1,23 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
+using Parser.XMLParser;
 
 namespace Parser
 {
   public class XMLOrderParser
   {
-    public List<Order> ParseOrders(List<XmlOrderFile> rawOrderFileContent)
+    public XMLOrderParserResponse ParseOrders(XMLOrderParserRequest request)
     {
-      var orders = new List<Order>();
-
-      foreach (var rawOrderFile in rawOrderFileContent)
+      var response = new XMLOrderParserResponse();
+      
+      foreach (var rawOrderFile in request.XmlOrderFiles)
       {
         try
         {
           var order = ParseOrder(rawOrderFile);
-          orders.Add(order);
+          response.Orders.Add(order);
 
           Console.WriteLine("Order processed..");
           Console.WriteLine("------------------");
@@ -28,10 +25,11 @@ namespace Parser
         catch (EDIOrderException ediOrderException)
         {
           Console.WriteLine("Order with filename '{0}' could not be processed", ediOrderException.OrderFileName);
+          response.OrderFileNamesWithProblems.Add(rawOrderFile.FileFullName);
         }
       }
 
-      return orders;
+      return response;
     }
 
     public Order ParseOrder(XmlOrderFile orderFile)
